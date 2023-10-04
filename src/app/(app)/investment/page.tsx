@@ -1,3 +1,4 @@
+'use client'
 import React from 'react';
 import StyledButton from './styled';
 const Investment = () => {

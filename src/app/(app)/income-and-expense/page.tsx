@@ -1,7 +1,5 @@
 'use client';
-import { Link } from '@chakra-ui/next-js';
 import { Button } from '@chakra-ui/react';
-/* import Buttons from './buttons/appButton'; */
 import React, { FormEvent, useEffect, useState } from 'react';
 import * as S from './styled';
 import {
@@ -27,10 +25,10 @@ import {
   FormControl
 } from '@chakra-ui/react';
 import { EmailIcon } from '@chakra-ui/icons';
-import { Calendar } from 'phosphor-react';
 import { Article, Money, SquaresFour } from '@phosphor-icons/react';
 import { IncomeExpense, db } from '@/db';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { Calendar } from 'phosphor-react';
 
 type Item = {
   id: number;
@@ -129,8 +127,8 @@ const IncomeExpense: React.FC = () => {
       .where('email')
       .equals(email)
       .toArray();
-      setIncome([])
-      setExpense([])
+    setIncome([]);
+    setExpense([]);
     for (let incomeOrExpense of incomeAndExpense) {
       if (incomeOrExpense.type === 'RECEITA') {
         setIncome((income) => [...income, incomeOrExpense]);
@@ -297,10 +295,10 @@ const IncomeExpense: React.FC = () => {
             <Thead>
               <S.TitleExpense>DESPESAS</S.TitleExpense>
               <Tr>
-                <Th>DATA</Th>
-                <Th>VALOR</Th>
-                <Th>DESCRIÇÃO</Th>
-                <Th>CATEGORIA</Th>
+                <S.TableHeader>DATA</S.TableHeader>
+                <S.TableHeader>VALOR</S.TableHeader>
+                <S.TableHeader>DESCRIÇÃO</S.TableHeader>
+                <S.TableHeader>CATEGORIA</S.TableHeader>
               </Tr>
             </Thead>
             <Tbody>
