@@ -103,7 +103,9 @@ const SignUp = () => {
             </InputGroup>
           </FormControl>
         </div>
-        <S.Button onClick={addUser}>Cadastrar-se</S.Button>
+        <S.Button type="button" onClick={addUser}>
+          Cadastrar-se
+        </S.Button>
       </S.Form>
     </main>
   );
