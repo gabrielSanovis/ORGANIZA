@@ -1,8 +1,25 @@
 'use client';
 import { Link } from '@chakra-ui/next-js';
-import { Card, CardHeader, CardBody, CardFooter, Button } from '@chakra-ui/react';
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Button
+} from '@chakra-ui/react';
+import {
+  useDisclosure,
+  Input,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton
+} from '@chakra-ui/react';
 /* import Buttons from './buttons/appButton'; */
-import React, { useState } from 'react';
+import React, { FormEvent, useState } from 'react';
 import * as S from './styled';
 import {
   Table,
@@ -18,151 +35,222 @@ import {
 
 type Item = {
   id: number;
-  name: string;
+  date: string;
+  value: number;
+  description: string;
+  category: string;
 };
 
 const IncomeExpense: React.FC = () => {
-  /* const handleClick1 = () => {
-    alert('O botão1 foi clicado!');
+  const [data, setData] = useState<string>('');
+  const [valor, setValor] = useState<number | string>('');
+  const [categoria, setCategoria] = useState<string>('');
+  const [descricao, setDescricao] = useState<string>('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
   };
-  const handleClick2 = () => {
-    alert('O botão2 foi clicado!');
-  }; */
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
   const [items, setItems] = useState<Item[]>([
-    { id: 1, name: 'Item 1' },
-    { id: 2, name: 'Item 2' },
-    { id: 3, name: 'Item 3' },
+    {
+      id: 1,
+      date: '2023-10-10',
+      value: 50,
+      description: 'Item 1',
+      category: 'Categoria 1'
+    },
+    {
+      id: 2,
+      date: '2023-10-11',
+      value: 50,
+      description: 'Item 2',
+      category: 'Categoria 2'
+    },
+    {
+      id: 3,
+      date: '2023-10-12',
+      value: 50,
+      description: 'Item 3',
+      category: 'Categoria 3'
+    },
+    {
+      id: 4,
+      date: '2023-10-13',
+      value: 50,
+      description: 'Item 4',
+      category: 'Categoria 4'
+    },
+    {
+      id: 5,
+      date: '2023-10-14',
+      value: 50,
+      description: 'Item 5',
+      category: 'Categoria 5'
+    }
   ]);
 
   const handleDelete = (id: number) => {
     const updatedItems = items.filter((item) => item.id !== id);
     setItems(updatedItems);
   };
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [size, setSize] = useState('md');
+
+  const handleSizeClick = (newSize: string) => {
+    setSize(newSize);
+    onOpen();
+  };
+  const sizes = ['xs'];
+
+  function handleSubmit(event: FormEvent<HTMLFormElement>): void {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <main>
-      <h1>ORGANIZA RECEITA E DESPESA</h1>
-      <Link href={'/'} color="blue.400" _hover={{ color: 'blue.500' }}>
-        IR PARA HOME
-      </Link>
-      {/* <h3>Deseja adicionar</h3> */}
-      <S.TextTittle>Deseja adicionar?</S.TextTittle>
-      {/* <Buttons onClick={handleClick1} label="Botão 1" />
-      <br />
-      <Buttons onClick={handleClick2} label="Botão 2" /> */}
-      <S.Income>Receita</S.Income>
-      <S.Expense>Despesa</S.Expense>
-      <S.TableContainerIncome>
-        <Table variant="simple">
-          {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
-          <Thead>
-            <h1>Receita</h1>
-            <Tr>
-              <Th>Data</Th>
-              <Th isNumeric>Valor</Th>
-              <Th>Descrição</Th>
-              <Th>Categoria</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Td>04/09/2023</Td>
-              <Td isNumeric>R$ 15.000</Td>
-              <Td>VENDA</Td>
-              <Td>VENDAS</Td>
-            </Tr>
-            <Tr>
-              <Td>04/09/2023</Td>
-              <Td isNumeric>R$ 15.000</Td>
-              <Td>VENDA</Td>
-              <Td>VENDAS</Td>
-            </Tr>
-            <Tr>
-              <Td>04/09/2023</Td>
-              <Td isNumeric>R$ 15.000</Td>
-              <Td>VENDA</Td>
-              <Td>VENDAS</Td>
-            </Tr>
-          </Tbody>
-          <Tfoot>
-            <Tr>
-              <Td>04/09/2023</Td>
-              <Td isNumeric>R$ 15.000</Td>
-              <Td>VENDA</Td>
-              <Td>VENDAS</Td>
-            </Tr>
-          </Tfoot>
-          <Tfoot>
-            <Tr>
-              <Td>04/09/2023</Td>
-              <Td isNumeric>R$ 15.000</Td>
-              <Td>VENDA</Td>
-              <Td>VENDAS</Td>
-            </Tr>
-          </Tfoot>
-        </Table>
-      </S.TableContainerIncome>
-
-      <S.TableContainerExpense>
-        <Table variant="simple">
-          {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
-          <Thead>
-            <h1>Despesa</h1>
-            <Tr>
-              <Th>Data</Th>
-              <Th isNumeric>Valor</Th>
-              <Th>Descrição</Th>
-              <Th>Categoria</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            <Tr>
-              <Td>inches</Td>
-              <Td>millimetres (mm)</Td>
-              <Td isNumeric>25.4</Td>
-            </Tr>
-            <Tr>
-              <Td>feet</Td>
-              <Td>centimetres (cm)</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>yards</Td>
-              <Td>metres (m)</Td>
-              <Td isNumeric>0.91444</Td>
-            </Tr>
-          </Tbody>
-          <Tfoot>
-            <Tr>
-              <Th>To convert</Th>
-              <Th>into</Th>
-              <Th isNumeric>multiply by</Th>
-            </Tr>
-          </Tfoot>
-        </Table>
-      </S.TableContainerExpense>
-
-      <h1>Itens</h1>
-      <Table>
-        <Thead>
-          <Tr>
-            <Th>ID</Th>
-            <Th>Nome</Th>
-            <Th>Ações</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {items.map((item) => (
-            <Tr key={item.id}>
-              <Td>{item.id}</Td>
-              <Td>{item.name}</Td>
-              <Td>
-                <Button onClick={() => handleDelete(item.id)}>Excluir</Button>
-                <Button>Editar</Button>
-              </Td>
-            </Tr>
+      {/* <div>
+        <S.Income onClick={handleOpenModal}>RECEITA</S.Income>
+        {isModalOpen && <AddReceitaModal onClose={handleCloseModal} tipo={'receita'} />}
+      </div> */}
+      <S.TextTittle>Deseja adicionar</S.TextTittle>
+      <S.Buttons>
+        <>
+          {sizes.map((size) => (
+            <S.Income onClick={() => handleSizeClick(size)} key={size}>
+              {`RECEITA`}
+            </S.Income>
           ))}
-        </Tbody>
-      </Table>
+          {sizes.map((size) => (
+            <S.Expense onClick={() => handleSizeClick(size)} key={size}>
+              {`DESPESA`}
+            </S.Expense>
+          ))}
+          <Modal onClose={onClose} size={size} isOpen={isOpen}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>Adicionar Receita</ModalHeader>
+              <ModalCloseButton />
+              <ModalBody>Campos obrigatórios possuem o símbolo</ModalBody>
+              <div className="modal">
+                <div className="modal-content">
+                  <button>Adicionar Receita</button>
+                  <form onSubmit={handleSubmit}>
+                    <label htmlFor="data">Data:</label>
+                    <input
+                      type="date"
+                      id="data"
+                      name="data"
+                      value={data}
+                      onChange={(e) => setData(e.target.value)}
+                      required
+                    />
+
+                    <label htmlFor="valor">Valor:</label>
+                    <input
+                      type="number"
+                      id="valor"
+                      name="valor"
+                      value={valor}
+                      onChange={(e) => setValor(e.target.value)}
+                      step="0.01"
+                      required
+                    />
+
+                    <label htmlFor="categoria">Categoria:</label>
+                    <input
+                      type="text"
+                      id="categoria"
+                      name="categoria"
+                      value={categoria}
+                      onChange={(e) => setCategoria(e.target.value)}
+                      required
+                    />
+
+                    <label htmlFor="descricao">Descrição:</label>
+                    <textarea
+                      id="descricao"
+                      name="descricao"
+                      value={descricao}
+                      onChange={(e) => setDescricao(e.target.value)}
+                      rows={4}
+                      required
+                    />
+
+                    <button type="submit">Adicionar Receita</button>
+                  </form>
+                </div>
+              </div>
+              <ModalFooter>
+                <Button onClick={onClose}>Close</Button>
+              </ModalFooter>
+            </ModalContent>
+          </Modal>
+        </>
+      </S.Buttons>
+
+      <S.TableContainer>
+        <S.TableContainerIncome>
+          <Table>
+            <Thead>
+              <S.TitleIncome>RECEITA</S.TitleIncome>
+              <Tr>
+                <S.TableHeader>DATA</S.TableHeader>
+                <S.TableHeader>VALOR</S.TableHeader>
+                <S.TableHeader>DESCRIÇÃO</S.TableHeader>
+                <S.TableHeader>CATEGORIA</S.TableHeader>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {items.map((item) => (
+                <Tr key={item.id}>
+                  <Td>{item.date}</Td>
+                  <Td>{item.value}</Td>
+                  <Td>{item.description}</Td>
+                  <Td>{item.category}</Td>
+                  <Td>
+                    <Button onClick={() => handleDelete(item.id)}>
+                      Excluir
+                    </Button>
+                    <Button>Editar</Button>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </S.TableContainerIncome>
+
+        <S.TableContainerExpense>
+          <Table>
+            <Thead>
+              <S.TitleExpense>DESPESAS</S.TitleExpense>
+              <Tr>
+                <Th>DATA</Th>
+                <Th>VALOR</Th>
+                <Th>DESCRIÇÃO</Th>
+                <Th>CATEGORIA</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {items.map((item) => (
+                <Tr key={item.id}>
+                  <Td>{item.date}</Td>
+                  <Td>{item.value}</Td>
+                  <Td>{item.description}</Td>
+                  <Td>{item.category}</Td>
+                  <Td>
+                    <Button onClick={() => handleDelete(item.id)}>
+                      Excluir
+                    </Button>
+                    <Button>Editar</Button>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </S.TableContainerExpense>
+      </S.TableContainer>
     </main>
   );
 };

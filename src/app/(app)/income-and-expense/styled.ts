@@ -58,12 +58,12 @@ export const Buttons = styled.div`
 export const TableContainerIncome = styled.table`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   padding: 24px 16px;
   gap: 16px;
   width: 100%; /* Alterado para ocupar 100% da largura do contêiner pai */
-  max-width: 736px; /* Define uma largura máxima para evitar que a tabela fique muito larga */
+  max-width: 536px; /* Define uma largura máxima para evitar que a tabela fique muito larga */
   height: auto; /* Alterado para se ajustar automaticamente ao conteúdo */
   background: #ffffff;
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
@@ -86,12 +86,12 @@ export const TableContainerIncome = styled.table`
 export const TableContainerExpense = styled.table`
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* justify-content: center; */
   align-items: center;
   padding: 24px 16px;
   gap: 16px;
   width: 100%; /* Alterado para ocupar 100% da largura do contêiner pai */
-  max-width: 736px; /* Define uma largura máxima para evitar que a tabela fique muito larga */
+  max-width: 536px; /* Define uma largura máxima para evitar que a tabela fique muito larga */
   height: auto; /* Alterado para se ajustar automaticamente ao conteúdo */
   background: #ffffff;
   box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.25);
@@ -112,7 +112,9 @@ export const TableContainerExpense = styled.table`
 `;
 
 export const TableContainer = styled.table`
-  justify-content: space-between;
+  justify-content: space-around;
+  display: flex;
+  flex-direction: row;
 `;
 
 export const TitleIncome = styled.h2`
@@ -121,6 +123,29 @@ export const TitleIncome = styled.h2`
   font-weight: 700;
   font-size: 20px;
   line-height: 23px;
+  color: #262626;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
+export const TitleExpense = styled.h2`
+  text-align: center;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 23px;
+  color: #262626;
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+`;
+
+export const TableHeader = styled.th`
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
   color: #262626;
   flex: none;
   order: 0;
