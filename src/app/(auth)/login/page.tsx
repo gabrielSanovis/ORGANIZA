@@ -7,7 +7,8 @@ import {
   Image,
   InputLeftElement,
   Stack,
-  InputGroup
+  InputGroup,
+  FormControl
 } from '@chakra-ui/react';
 
 const Login = () => {
@@ -19,32 +20,40 @@ const Login = () => {
           src="images/logo_transparent.png"
           alt="Foto da logo"
         />
-        <FormLabel width={390}>E-mail</FormLabel>
-        <Stack spacing={4} />
-        <InputGroup width={400} mb={10}>
-          <InputLeftElement pointerEvents="none">
-            <EmailIcon color="gray.50" />
-          </InputLeftElement>
-          <Input
-            type="email"
-            placeholder="example@email.com"
-            bg="gray.800"
-            color={'white'}
-          />
-        </InputGroup>
-        <FormLabel width={390}>Sua senha</FormLabel>
-        <Stack spacing={4} />
-        <InputGroup width={400} mb={20}>
-          <InputLeftElement pointerEvents="none">
-            <LockIcon color="gray.50" />
-          </InputLeftElement>
-          <Input
-            type="password"
-            placeholder="*********"
-            bg="gray.800"
-            color={'white'}
-          />
-        </InputGroup>
+        <div>
+          <FormControl width={400} mb={10}>
+            <FormLabel>E-mail</FormLabel>
+            <Stack spacing={4} />
+            <InputGroup w="100%">
+              <InputLeftElement pointerEvents="none">
+                <EmailIcon color="gray.50" />
+              </InputLeftElement>
+              <Input
+                type="email"
+                placeholder="example@email.com"
+                bg="gray.800"
+                color={'white'}
+              />
+            </InputGroup>
+          </FormControl>
+        </div>
+        <div>
+          <FormControl width={400} mb={10}>
+            <FormLabel>Sua senha</FormLabel>
+            <Stack spacing={4} />
+            <InputGroup w="100%">
+              <InputLeftElement pointerEvents="none">
+                <LockIcon color="gray.50" />
+              </InputLeftElement>
+              <Input
+                type="password"
+                placeholder="*********"
+                bg="gray.800"
+                color={'white'}
+              />
+            </InputGroup>
+          </FormControl>
+        </div>
         <S.Botao>Entrar</S.Botao>
         <S.Botao>Cadastrar-se</S.Botao>
       </S.Form>

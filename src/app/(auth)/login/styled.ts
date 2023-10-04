@@ -17,3 +17,16 @@ export const Botao = styled.button `
     height: 3em;
 
 `;
+
+export const Footer = styled.footer `
+
+        background-color: #262626;
+        color: #fff;
+        height: 40px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        padding: 0.5%;
+        text-align: center;
+`;
