@@ -1,8 +1,8 @@
 'use client';
 import { Link } from '@chakra-ui/next-js';
 import React, { useState } from 'react';
-import Modal from './styled'; // Importe o componente de estilo Modal
-import * as S from './styled';;
+import Modal from './styled'; 
+import * as S from './styled';
 
 const Investment = () => {
   const [showModal, setShowModal] = useState(false);
@@ -33,7 +33,16 @@ const Investment = () => {
 
   return (
     <div>
+      <div>
+
+      <S.Title2>Organiza</S.Title2>
+      <S.Title1>Investimentos</S.Title1>
+      
+      <S.Divbutton>
+      <div>
       <S.ModalButton onClick={handleModalToggle} >Adicionar Investimento</S.ModalButton>
+      </div>
+      </S.Divbutton>
 
       {showModal && (
    
@@ -77,12 +86,16 @@ const Investment = () => {
                   onChange={handleInputChange}
                 />
               </div>
-              <S.Button type="submit" bg="green 500">Enviar</S.Button>
+              <div className='BotoesForm'>
+              <S.Button type="submit" className='BotaoOne'>Enviar</S.Button>
+              <S.Button type="submit" className='BotaoTwo'>Adicionar Outros</S.Button>
+              </div>
             </form>
           </div>
         </Modal>
      
       )}
+      </div>
     </div>
 
   );
