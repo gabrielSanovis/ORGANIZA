@@ -20,6 +20,7 @@ export interface IncomeExpense {
   date: string;
   description: string;
   categoria: string;
+  type: string;
 }
 export interface Investment {
   pk?: number;
@@ -41,7 +42,7 @@ export class MySubClassedDexie extends Dexie {
     this.version(1).stores({
       user: 'email, name, password',
       budget: '++pk, email, categoria, value, date, description',
-      incomeExpense: '++pk, email, categoria, value, date, description',
+      incomeExpense: '++pk, email, categoria, value, date, description, type',
       investment: '++pk, email, categoria, value, date, description'
     });
   }
