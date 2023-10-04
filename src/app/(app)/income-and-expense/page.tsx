@@ -1,12 +1,9 @@
 'use client';
 import { Link } from '@chakra-ui/next-js';
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Button
-} from '@chakra-ui/react';
+import { Button } from '@chakra-ui/react';
+/* import Buttons from './buttons/appButton'; */
+import React, { FormEvent, useEffect, useState } from 'react';
+import * as S from './styled';
 import {
   useDisclosure,
   Input,
@@ -16,22 +13,24 @@ import {
   ModalHeader,
   ModalFooter,
   ModalBody,
-  ModalCloseButton
-} from '@chakra-ui/react';
-/* import Buttons from './buttons/appButton'; */
-import React, { FormEvent, useState } from 'react';
-import * as S from './styled';
-import {
+  ModalCloseButton,
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
-  TableContainer
+  FormLabel,
+  InputLeftElement,
+  Stack,
+  InputGroup,
+  FormControl
 } from '@chakra-ui/react';
+import { EmailIcon } from '@chakra-ui/icons';
+import { Calendar } from 'phosphor-react';
+import { Article, Money, SquaresFour } from '@phosphor-icons/react';
+import { IncomeExpense, db } from '@/db';
+import { useLiveQuery } from 'dexie-react-hooks';
 
 type Item = {
   id: number;
@@ -42,11 +41,15 @@ type Item = {
 };
 
 const IncomeExpense: React.FC = () => {
-  const [data, setData] = useState<string>('');
-  const [valor, setValor] = useState<number | string>('');
+  const email = 'novis@gmail';
+  const [date, setDate] = useState<string>('');
+  const [value, setValue] = useState<string>('');
   const [categoria, setCategoria] = useState<string>('');
-  const [descricao, setDescricao] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [type, setType] = useState('');
+  const [income, setIncome] = useState([]);
+  const [expense, setExpense] = useState([]);
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
@@ -91,10 +94,6 @@ const IncomeExpense: React.FC = () => {
     }
   ]);
 
-  const handleDelete = (id: number) => {
-    const updatedItems = items.filter((item) => item.id !== id);
-    setItems(updatedItems);
-  };
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [size, setSize] = useState('md');
 
@@ -108,6 +107,46 @@ const IncomeExpense: React.FC = () => {
     throw new Error('Function not implemented.');
   }
 
+  async function addExpenseAndIncome() {
+    try {
+      await db.incomeExpense.add({
+        email,
+        categoria,
+        value,
+        date,
+        description,
+        type
+      });
+
+      console.log(`incomeExpense ${email} successfully added. Got id `);
+      onClose();
+    } catch (error) {
+      console.log(`Failed to add ${email}: ${error}`);
+    }
+  }
+  useLiveQuery(async () => {
+    const incomeAndExpense = await db.incomeExpense
+      .where('email')
+      .equals(email)
+      .toArray();
+      setIncome([])
+      setExpense([])
+    for (let incomeOrExpense of incomeAndExpense) {
+      if (incomeOrExpense.type === 'RECEITA') {
+        setIncome((income) => [...income, incomeOrExpense]);
+      }
+      if (incomeOrExpense.type === 'DESPESA') {
+        setExpense((expense) => [...expense, incomeOrExpense]);
+      }
+    }
+    console.log(income);
+    console.log(expense);
+  }, [email, isOpen]);
+
+  const handlerDelete = (primaryKey: number) => {
+    db.incomeExpense.delete(primaryKey);
+  };
+  console.log(income);
   return (
     <main>
       {/* <div>
@@ -118,12 +157,24 @@ const IncomeExpense: React.FC = () => {
       <S.Buttons>
         <>
           {sizes.map((size) => (
-            <S.Income onClick={() => handleSizeClick(size)} key={size}>
+            <S.Income
+              onClick={() => {
+                handleSizeClick(size);
+                setType('RECEITA');
+              }}
+              key={size}
+            >
               {`RECEITA`}
             </S.Income>
           ))}
           {sizes.map((size) => (
-            <S.Expense onClick={() => handleSizeClick(size)} key={size}>
+            <S.Expense
+              onClick={() => {
+                handleSizeClick(size);
+                setType('DESPESA');
+              }}
+              key={size}
+            >
               {`DESPESA`}
             </S.Expense>
           ))}
@@ -133,55 +184,76 @@ const IncomeExpense: React.FC = () => {
               <ModalHeader>Adicionar Receita</ModalHeader>
               <ModalCloseButton />
               <ModalBody>Campos obrigatórios possuem o símbolo</ModalBody>
-              <div className="modal">
-                <div className="modal-content">
-                  <button>Adicionar Receita</button>
-                  <form onSubmit={handleSubmit}>
-                    <label htmlFor="data">Data:</label>
-                    <input
+              <form onSubmit={handleSubmit}>
+                <FormControl mb={4}>
+                  <FormLabel>Data:</FormLabel>
+                  <Stack spacing={2} />
+                  <InputGroup w="100%">
+                    <InputLeftElement pointerEvents="none">
+                      <Calendar size={24} color="#ffffff" />
+                    </InputLeftElement>
+                    <Input
+                      onChange={(e) => setDate(e.target.value)}
                       type="date"
-                      id="data"
-                      name="data"
-                      value={data}
-                      onChange={(e) => setData(e.target.value)}
-                      required
+                      placeholder="DD/MM/AAAA"
+                      bg="gray.800"
+                      color={'white'}
                     />
-
-                    <label htmlFor="valor">Valor:</label>
-                    <input
-                      type="number"
-                      id="valor"
-                      name="valor"
-                      value={valor}
-                      onChange={(e) => setValor(e.target.value)}
-                      step="0.01"
-                      required
-                    />
-
-                    <label htmlFor="categoria">Categoria:</label>
-                    <input
+                  </InputGroup>
+                </FormControl>
+                <FormControl mb={4}>
+                  <FormLabel>Valor:</FormLabel>
+                  <Stack spacing={2} />
+                  <InputGroup w="100%">
+                    <InputLeftElement pointerEvents="none">
+                      <Money size={24} color="#ffffff" />
+                    </InputLeftElement>
+                    <Input
+                      onChange={(e) => setValue(e.target.value)}
                       type="text"
-                      id="categoria"
-                      name="categoria"
-                      value={categoria}
+                      placeholder="R$ 1000"
+                      bg="gray.800"
+                      color={'white'}
+                    />
+                  </InputGroup>
+                </FormControl>
+                <FormControl mb={4}>
+                  <FormLabel>Categoria:</FormLabel>
+                  <Stack spacing={2} />
+                  <InputGroup w="100%">
+                    <InputLeftElement pointerEvents="none">
+                      <SquaresFour size={24} color="#ffffff" />
+                    </InputLeftElement>
+                    <Input
                       onChange={(e) => setCategoria(e.target.value)}
-                      required
+                      type="text"
+                      placeholder="Categoria"
+                      bg="gray.800"
+                      color={'white'}
                     />
+                  </InputGroup>
+                </FormControl>
 
-                    <label htmlFor="descricao">Descrição:</label>
-                    <textarea
-                      id="descricao"
-                      name="descricao"
-                      value={descricao}
-                      onChange={(e) => setDescricao(e.target.value)}
-                      rows={4}
-                      required
+                <FormControl mb={4}>
+                  <FormLabel>Descrição:</FormLabel>
+                  <Stack spacing={2} />
+                  <InputGroup w="100%">
+                    <InputLeftElement pointerEvents="none">
+                      <Article size={24} color="#ffffff" />
+                    </InputLeftElement>
+                    <Input
+                      onChange={(e) => setDescription(e.target.value)}
+                      type="text"
+                      placeholder="Descrição"
+                      bg="gray.800"
+                      color={'white'}
                     />
-
-                    <button type="submit">Adicionar Receita</button>
-                  </form>
-                </div>
-              </div>
+                  </InputGroup>
+                </FormControl>
+                <S.Botao type="button" onClick={() => addExpenseAndIncome()}>
+                  Enviar
+                </S.Botao>
+              </form>
               <ModalFooter>
                 <Button onClick={onClose}>Close</Button>
               </ModalFooter>
@@ -203,17 +275,16 @@ const IncomeExpense: React.FC = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {items.map((item) => (
-                <Tr key={item.id}>
+              {income?.map((item: IncomeExpense) => (
+                <Tr key={item.pk}>
                   <Td>{item.date}</Td>
                   <Td>{item.value}</Td>
                   <Td>{item.description}</Td>
-                  <Td>{item.category}</Td>
+                  <Td>{item.categoria}</Td>
                   <Td>
-                    <Button onClick={() => handleDelete(item.id)}>
+                    <Button onClick={() => handlerDelete(item.pk)}>
                       Excluir
                     </Button>
-                    <Button>Editar</Button>
                   </Td>
                 </Tr>
               ))}
@@ -233,17 +304,16 @@ const IncomeExpense: React.FC = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {items.map((item) => (
-                <Tr key={item.id}>
+              {expense?.map((item: IncomeExpense) => (
+                <Tr key={item.pk}>
                   <Td>{item.date}</Td>
                   <Td>{item.value}</Td>
                   <Td>{item.description}</Td>
-                  <Td>{item.category}</Td>
+                  <Td>{item.categoria}</Td>
                   <Td>
-                    <Button onClick={() => handleDelete(item.id)}>
+                    <Button onClick={() => handlerDelete(item?.pk)}>
                       Excluir
                     </Button>
-                    <Button>Editar</Button>
                   </Td>
                 </Tr>
               ))}

@@ -83,6 +83,14 @@ export const TableContainerIncome = styled.table`
   }
 `;
 
+export const Botao = styled.button`
+  background-color: #1a202c;
+  color: #fff;
+  margin-bottom: 2.5%;
+  width: 100%;
+  height: 3em;
+`;
+
 export const TableContainerExpense = styled.table`
   display: flex;
   flex-direction: column;
