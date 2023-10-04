@@ -131,14 +131,12 @@ const IncomeExpense: React.FC = () => {
     setExpense([]);
     for (let incomeOrExpense of incomeAndExpense) {
       if (incomeOrExpense.type === 'RECEITA') {
-        setIncome((income) => [...income, incomeOrExpense]);
+        setIncome((income: any[]): any[] => [...income, incomeOrExpense]);
       }
       if (incomeOrExpense.type === 'DESPESA') {
-        setExpense((expense) => [...expense, incomeOrExpense]);
+        setExpense((expense: any[]): any[] => [...expense, incomeOrExpense]);
       }
     }
-    console.log(income);
-    console.log(expense);
   }, [email, isOpen]);
 
   const handlerDelete = (primaryKey: number) => {
