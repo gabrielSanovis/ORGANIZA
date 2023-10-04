@@ -72,7 +72,9 @@ const Login = () => {
         <S.Botao type="button" onClick={getUser}>
           Entrar
         </S.Botao>
-        <S.Botao type="button">Cadastrar-se</S.Botao>
+        <S.Botao type="button" onClick={() => router.push('/sign-up')}>
+          Cadastrar-se
+        </S.Botao>
       </S.Form>
     </main>
   );
