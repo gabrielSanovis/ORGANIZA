@@ -1,13 +1,10 @@
-'use client';
-import { Link } from '@chakra-ui/next-js';
-
+import React from 'react';
+import StyledButton from './styled';
 const Investment = () => {
   return (
     <main>
-      <h1>ORGANIZA INVESTIMENTO</h1>
-      <Link href={'/'} color="blue.400" _hover={{ color: 'blue.500' }}>
-        IR PARA HOME
-      </Link>
+      <h1>INVESTIMENTO</h1>
+      <StyledButton>Meu Botão Estilizado</StyledButton>
     </main>
   );
 };

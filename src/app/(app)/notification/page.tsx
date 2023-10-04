@@ -1,10 +1,13 @@
 'use client';
+import React, { useState } from 'react';
 import { TextBox } from './styled';
 import { ChartLineUp, ChartPieSlice } from '@phosphor-icons/react';
+import * as S from './styled';
 const Notification = () => {
   return (
     <main>
-      <h1>NOTIFICAÇÕES</h1>
+      <S.Title1>Organiza</S.Title1>
+      <S.Title2>NOTIFICAÇÕES</S.Title2>
 
       <TextBox>
         <ChartLineUp size={24} /> Faça seu primeiro investimento e acompanhe em
