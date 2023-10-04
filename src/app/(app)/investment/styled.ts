@@ -43,16 +43,16 @@ export const ModalButton = styled.button`
 `;
 
 export const Button = styled.button`
-  background-color: #34d01a; /* Cor azul */
-  color: #34d01a;
   border: none;
+  width: 153px;
+  margin-left: 2px;
+  margin-right: 40px;
+  height: 51px;
   border-radius: 4px;
-  padding: 10px 20px;
-  cursor: pointer;
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #0056b3; /* Cor de destaque ao passar o cursor */
+    background-color: #000; /* Cor de destaque ao passar o cursor */
   }
 
   &:active {
@@ -68,8 +68,7 @@ const Modal = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: left;
-  align-items: left;
+  justify-content: center;
 
   .BotoesForm {
     width: 400px;
@@ -81,24 +80,6 @@ const Modal = styled.div`
     :hover {
       background-color: #ffffff;
     }
-  }
-  .BotaoOne {
-    width: 153px;
-    height: 51px;
-    border-radius: 16px;
-    padding: 16px;
-    background-color: #34d01a;
-    margin-right: 20px;
-    color: #262626;
-  }
-  .BotaoTwo {
-    width: 153px;
-    height: 51px;
-    border-radius: 16px;
-    padding: 16px;
-    background-color: #34d01a;
-    margin-left: 20px;
-    color: #262626;
   }
 
   .modal-content {
