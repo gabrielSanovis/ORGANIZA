@@ -1,29 +1,10 @@
 'use client';
 import './globals.css';
-import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
 import { Providers } from './providers';
 import * as S from './(auth)/login/styled';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400'] });
-
-export const metadata: Metadata = {
-  title: 'ORGANIZA',
-  description: 'ORGANIZE SUAS FINANÇAS',
-  icons: '/images/favicon.ico',
-  generator: 'Next.js 13.4.19',
-  applicationName: 'Organiza',
-  keywords: ['finanças', 'investimento', 'organizar', 'dinheiro'],
-  authors: [{ name: 'Gabriel Santos' }],
-  colorScheme: 'light',
-  creator: 'Gabriel Santos',
-  publisher: 'Organiza Team',
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false
-  }
-};
 
 export default function RootLayout({
   children
@@ -32,6 +13,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-BR">
+      <head>
+        <title>ORGANIZA</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body className={roboto.className}>
         <Providers>
           {children}
