@@ -9,8 +9,29 @@ import {
   InputLeftElement,
   InputGroup
 } from '@chakra-ui/react';
+import { db } from '@/db';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const SignUp = () => {
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const router = useRouter();
+  async function addUser() {
+    try {
+      await db.user.add({
+        email,
+        name,
+        password
+      });
+
+      console.log(`Friend ${name} successfully added. Got id `);
+      router.push('/login');
+    } catch (error) {
+      console.log(`Failed to add ${name}: ${error}`);
+    }
+  }
   return (
     <main>
       <S.Form>
@@ -23,6 +44,7 @@ const SignUp = () => {
                 <User size={24} color="#ffffff" />
               </InputLeftElement>
               <Input
+                onChange={(e) => setName(e.target.value)}
                 type="text"
                 placeholder="Nome"
                 bg="gray.800"
@@ -39,6 +61,7 @@ const SignUp = () => {
                 <Envelope size={24} color="#ffffff" />
               </InputLeftElement>
               <Input
+                onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 placeholder="example@email.com"
                 bg="gray.800"
@@ -55,6 +78,7 @@ const SignUp = () => {
                 <Keyhole size={24} color="#ffffff" />
               </InputLeftElement>
               <Input
+                onChange={(e) => setPassword(e.target.value)}
                 type="password"
                 placeholder="**********"
                 bg="gray.800"
@@ -79,7 +103,7 @@ const SignUp = () => {
             </InputGroup>
           </FormControl>
         </div>
-        <S.Button>Cadastrar-se</S.Button>
+        <S.Button onClick={addUser}>Cadastrar-se</S.Button>
       </S.Form>
     </main>
   );
