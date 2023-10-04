@@ -1,4 +1,5 @@
 'use client';
+import { db } from '@/db';
 import * as S from './styled';
 import { EmailIcon, LockIcon } from '@chakra-ui/icons';
 import {
@@ -10,8 +11,20 @@ import {
   InputGroup,
   FormControl
 } from '@chakra-ui/react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const router = useRouter();
+  const getUser = async () => {
+    const user = await db.user.get(email);
+    if (user?.password === password) {
+      router.push('/dashboard');
+    }
+    console.log(user?.password === password);
+  };
   return (
     <main>
       <S.Form>
@@ -29,6 +42,7 @@ const Login = () => {
                 <EmailIcon color="gray.50" />
               </InputLeftElement>
               <Input
+                onChange={(e) => setEmail(e.target.value)}
                 type="email"
                 placeholder="example@email.com"
                 bg="gray.800"
@@ -46,6 +60,7 @@ const Login = () => {
                 <LockIcon color="gray.50" />
               </InputLeftElement>
               <Input
+                onChange={(e) => setPassword(e.target.value)}
                 type="password"
                 placeholder="*********"
                 bg="gray.800"
@@ -54,8 +69,10 @@ const Login = () => {
             </InputGroup>
           </FormControl>
         </div>
-        <S.Botao>Entrar</S.Botao>
-        <S.Botao>Cadastrar-se</S.Botao>
+        <S.Botao type="button" onClick={getUser}>
+          Entrar
+        </S.Botao>
+        <S.Botao type="button">Cadastrar-se</S.Botao>
       </S.Form>
     </main>
   );
