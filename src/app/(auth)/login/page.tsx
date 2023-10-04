@@ -34,7 +34,7 @@ const Login = () => {
           alt="Foto da logo"
         />
         <div>
-          <FormControl width={400} mb={10}>
+          <FormControl width={400} mb={6}>
             <FormLabel>E-mail</FormLabel>
             <Stack spacing={4} />
             <InputGroup w="100%">
@@ -52,7 +52,7 @@ const Login = () => {
           </FormControl>
         </div>
         <div>
-          <FormControl width={400} mb={10}>
+          <FormControl width={400} mb={6}>
             <FormLabel>Sua senha</FormLabel>
             <Stack spacing={4} />
             <InputGroup w="100%">
