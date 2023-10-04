@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 export const Title2 = styled.h2`
-  font-size:17px;
-  margin: 20px 0 0 3rem; 
+  font-size: 17px;
+  margin: 20px 0 0 3rem;
 `;
 
 export const Title1 = styled.h1`
-  font-size:30px; 
+  font-size: 30px;
   margin: -10px 0 0 3rem;
   font-weight: 800;
 `;
@@ -18,6 +18,11 @@ export const Divbutton = styled.div`
   height: 45vh; /* Define a altura da div container */
 `;
 
+export const Label1 = styled.label`
+  display: flex;
+  justify-content: center; /* Centraliza horizontalmente */
+  align-items: center; /* Centraliza verticalmente */
+`;
 
 export const ModalButton = styled.button`
   background-color: #34d01a; /* Cor azul */
@@ -55,7 +60,6 @@ export const Button = styled.button`
   }
 `;
 
-
 const Modal = styled.div`
   position: fixed;
   top: 0;
@@ -64,37 +68,38 @@ const Modal = styled.div`
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: left;
+  align-items: left;
 
-  .BotoesForm{
+  .BotoesForm {
     width: 400px;
     height: 83px;
     padding: 32px 0px 0px 0px;
     font-weight: 600;
     font-size: 16px;
     line-height: 18.75px;
-    :hover{ background-color: #FFFFFF;}
-
-     }
-     .BotaoOne{
-        width: 153px;
-        height: 51px;
-        border-radius: 16px;
-        padding: 16px;
-        background-color:#34D01A;
-        margin-right: 20px;
-        color: #262626;
-     }
-     .BotaoTwo{
+    :hover {
+      background-color: #ffffff;
+    }
+  }
+  .BotaoOne {
     width: 153px;
     height: 51px;
     border-radius: 16px;
     padding: 16px;
-    background-color:#34D01A;
+    background-color: #34d01a;
+    margin-right: 20px;
+    color: #262626;
+  }
+  .BotaoTwo {
+    width: 153px;
+    height: 51px;
+    border-radius: 16px;
+    padding: 16px;
+    background-color: #34d01a;
     margin-left: 20px;
     color: #262626;
-     }
+  }
 
   .modal-content {
     background: #fff;
